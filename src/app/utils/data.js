@@ -1,0 +1,42 @@
+export const events = [
+  {
+    id: 1,
+    title: "Seafood pizza",
+    slug: "seafood-pizza",
+    description: "All the lorem Ipsum generators on the internet tend to repeat",
+    img: "/pizza1.png",
+    price: "35.00",
+  },
+  {
+    id: 2,
+    title: "Cheese pizza",
+    slug: "cheese-pizza",
+    description: "All the lorem Ipsum generators on the internet tend to repeat",
+    img: "/pizza2.png",
+    price: "35.00",
+  },
+  {
+    id: 3,
+    title: "Shrimp pizza",
+    slug: "shrimp-pizza",
+    description: "All the lorem Ipsum generators on the internet tend to repeat",
+    img: "/pizza3.png",
+    price: "25.00",
+  },
+  {
+    id: 4,
+    title: "Seafood pizza deluxe",
+    slug: "seafood-pizza-deluxe",
+    description: "All the lorem Ipsum generators on the internet tend to repeat",
+    img: "/pizza4.png",
+    price: "65.00",
+  },
+  {
+    id: 5,
+    title: "Cheese pizza special",
+    slug: "cheese-pizza-special",
+    description: "All the lorem Ipsum generators on the internet tend to repeat",
+    img: "/pizza5.png",
+    price: "15.00",
+  },
+];
