@@ -1,11 +1,37 @@
 "use client"
 import FooterComponents from '@/components/Footer/FooterComponents';
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Loader2Icon, Mail, MapPin, Phone } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React, { useRef } from 'react'
+import { toast, ToastContainer } from 'react-toastify';
+import emailjs from '@emailjs/browser';
+import { Button } from '@/components/ui/button';
+
 
 export const ContactPage = () => {
+  const [isSending,setIsSending] = React.useState(false)
+   const form = useRef();
+
+  const sendEmail = (e) => {
+    
+    setIsSending (true);
+    emailjs.
+sendForm('service_2gcwfvb', 'template_7c0yef1', form.current, {
+        publicKey: 'IOCIXn56nEQi48M1v',
+      })
+      .then(
+        () => {
+          setIsSending(false)
+          form.current.reset()
+          toast.success('Message sent successfully!');
+          form.current.reset();
+        },
+        (error) => {
+          toast.error('Faild to sent:', error.text);
+        },
+      );
+  };
   return (
     <>
       {/* --- HEADER --- */}
@@ -52,12 +78,13 @@ export const ContactPage = () => {
             Consultation
             <span className="block w-12 h-[2px] bg-red-500 absolute left-28 top-1/2"></span>
           </span>
+          < ToastContainer position="top-center" />
           <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-8">
             Send Us Message
           </h2>
 
           {/* Formulaire */}
-          <form className="space-y-5">
+          <form ref={form} action="#"  onSubmit={sendEmail} method="POST" className="space-y-5">
             {/* Ligne 1 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <input
@@ -87,19 +114,21 @@ export const ContactPage = () => {
             </div>
 
             {/* Message */}
-            <textarea
+            <textarea 
               placeholder="Write Message"
               rows="4"
               className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
             ></textarea>
 
             {/* Bouton */}
-            <button
-              type="submit"
-              className="bg-yellow-400 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-red-600 transition"
-            >
-              SEND MESSAGE
-            </button>
+            <div>
+        {isSending ?   <Button size="lg" className="w-full" disabled>
+                <Loader2Icon   className="animate-spin" />
+                    Please wait
+                </Button> : <Button type="button"
+        onClick={()=>sendEmail()} className="bg-yellow-400 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-red-600 transition" > Send Mail </Button>
+               }         
+      </div>
           </form>
         </div>
 
