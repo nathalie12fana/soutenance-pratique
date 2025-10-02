@@ -43,11 +43,12 @@ export const NavbarComponents = () => {
             </Link>
           </li>
           <li>
-            <div className="flex ml-6 gap-4 cursor-pointer hover:text-red-600">
-              <Search className="text-black" />
-        
+            <div className="flex ml-6 gap-4 cursor-pointer">
+              <Link href="ProductSearch">
+              <Search className="text-black hover:text-red-600" />
+                </Link>
             <div className="relative" onClick={() => setIsOpen(true)}>
-              <ShoppingCart className="text-black"/>
+              <ShoppingCart className="text-black hover:text-red-600"/>
               {cart.length > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full px-1">
                 {cart.length}
