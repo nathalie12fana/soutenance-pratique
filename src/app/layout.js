@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <ThemeProvider
-            attribute="class" // applique "class=dark" ou "class=light" sur <html>
+            attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
