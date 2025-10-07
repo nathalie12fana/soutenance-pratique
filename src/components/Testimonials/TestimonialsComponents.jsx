@@ -8,25 +8,25 @@ const testimonials = [
   {
     id: 1,
     name: "Johan Doe",
-    text: "Lorem Ipsum is simply dummy text of the print book. It has survived not only five centuries, but also the leap",
-    image: "/johan.png", // 👉 mets tes vraies images dans public/images
+    text: "The service was exceptional! The food arrived hot and fresh, and the flavors were absolutely amazing. Highly recommended!",
+    image: "/johan.png",
   },
   {
     id: 2,
     name: "Alex Saanu",
-    text: "Lorem Ipsum is simply dummy text of the print book. It has survived not only five centuries, but also the leap",
+    text: "I’ve ordered several times and each experience is consistently great. Excellent delivery and friendly service every time.",
     image: "/alex.png",
   },
   {
     id: 3,
     name: "Jona Leoner",
-    text: "Lorem Ipsum is simply dummy text of the print book. It has survived not only five centuries, but also the leap",
+    text: "Fresh, flavorful, and fast! Their meals never disappoint. You can really tell they care about quality.",
     image: "/jonas.png",
   },
   {
     id: 4,
     name: "Takar Bowa",
-    text: "Lorem Ipsum is simply dummy text of the print book. It has survived not only five centuries, but also the leap",
+    text: "Delicious food with perfect taste and quick delivery. A go-to restaurant for any craving. Five stars from me!",
     image: "/lucas.png",
   },
 ];
@@ -43,79 +43,99 @@ export default function TestimonialsComponents() {
   };
 
   return (
-    <section className="py-16 relative bg-white">
-      
-      {/* Header avec titre + flèches */}
-      <div className="flex justify-between items-center max-w-7xl mx-auto px-6 mb-12">
-        {/*Image de gauche */}
-        <div>
+    <section className="relative bg-[#fff8f5] py-20 overflow-hidden">
+      {/* En-tête */}
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between mb-16">
+        {/* Image décorative */}
+        <div className="hidden md:block">
           <Image
-                src="/img20.png"
-                alt=""
-                width={80}
-                height={80}
-                className="rounded-full"
-              />
+            src="/img20.png"
+            alt="Decorative"
+            width={90}
+            height={90}
+            className="rounded-full shadow-lg"
+          />
         </div>
 
-        <div>
-          <p className="text-red-500 font-medium relative inline-block text-1xl">
+        {/* Texte d’introduction */}
+        <div className="text-center md:text-left">
+          <p className="text-red-500 font-semibold text-lg tracking-wide">
             Customer Feedback
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold mt-2">
-            Client Testimonials
+          <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mt-2">
+            What Our Clients Say
           </h2>
+          <p className="text-gray-600 mt-3 max-w-md">
+            We take pride in delivering high-quality food and unforgettable
+            experiences. Here’s what our customers think about us.
+          </p>
         </div>
 
-        
-
-        {/* Flèches navigation */}
-        <div className="flex gap-3">
+        {/* Boutons de navigation */}
+        <div className="flex gap-4 mt-6 md:mt-0">
           <button
             onClick={prevSlide}
-            className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center"
+            className="w-10 h-10 rounded-full bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition duration-300 flex items-center justify-center"
           >
             <ChevronLeft />
           </button>
           <button
             onClick={nextSlide}
-            className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center"
+            className="w-10 h-10 rounded-full bg-red-100 text-red-500 hover:bg-red-500 hover:text-white transition duration-300 flex items-center justify-center"
           >
             <ChevronRight />
           </button>
         </div>
       </div>
-      {/* Cartes */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-6">
-        {testimonials.map((item) => (
-          <div
-            key={item.id}
-            className="bg-white rounded-xl shadow-md border p-6 text-center transition hover:shadow-lg"
-          >
-            <div className="flex justify-center">
-              <Image
-                src={item.image}
-                alt={item.name}
-                width={80}
-                height={80}
-                className="rounded-full"
-              />
-            </div>
-            <h3 className="font-semibold text-lg mt-4">{item.name}</h3>
-            <p className="text-gray-600 text-2xl mt-3">{item.text}</p>
 
-            {/* Étoiles */}
-            <div className="flex justify-center mt-4 text-yellow-500">
-              {Array(5)
-                .fill()
-                .map((_, i) => (
-                  <Star key={i} size={16} fill="currentColor" />
-                ))}
+      
+      <div className="relative max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 transition-all duration-500 ease-in-out">
+          {testimonials.map((item, i) => (
+            <div
+              key={item.id}
+              className={`bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl text-center p-8 transition-all duration-500 ${
+                index === i ? "opacity-100 translate-y-0" : "opacity-70 scale-95"
+              }`}
+            >
+              {/* Image */}
+              <div className="flex justify-center mb-4">
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={80}
+                  height={80}
+                  className="rounded-full shadow-md"
+                />
+              </div>
+
+              
+              <h3 className="text-xl font-semibold text-gray-900">{item.name}</h3>
+              <p className="text-gray-600 mt-3 leading-relaxed">{item.text}</p>
+
+             
+              <div className="flex justify-center mt-5 text-yellow-400">
+                {Array(5)
+                  .fill(0)
+                  .map((_, i) => (
+                    <Star key={i} size={18} fill="currentColor" />
+                  ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-   
+
+      {/* Image décorative flottante */}
+      <div className="absolute bottom-0 left-0 opacity-30 hidden md:block">
+        <Image
+          src="/pizza8.png"
+          alt="Pizza decorative"
+          width={220}
+          height={220}
+          className="object-contain animate-bounce-slow"
+        />
+      </div>
     </section>
   );
 }

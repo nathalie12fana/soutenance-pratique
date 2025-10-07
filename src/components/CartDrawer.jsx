@@ -6,13 +6,13 @@ import { X, Trash } from "lucide-react";
 import React from "react";
 
 const CartDrawer = ({ onClose }) => {
-  const { cart, removeFromCart, increaseQuantity, decreaseQuantity,clearCart } = useCartStore();
+  const { cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart } = useCartStore();
 
   // Calcul du total
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
-    <div className="fixed top-0 right-0 w-96 h-full bg-white shadow-lg flex flex-col">
+    <div className=" top-0 right-0 w-96 h-full bg-white shadow-lg flex flex-col z-50">
       {/* HEADER */}
       <div className="flex justify-between items-center px-4 py-3 border-b">
         <h2 className="text-lg font-bold">SHOPPING CART</h2>
@@ -34,7 +34,7 @@ const CartDrawer = ({ onClose }) => {
               {/* IMAGE + DETAILS */}
               <div className="flex items-center gap-3">
                 <Image
-                  src={item.img || "/placeholder.png"}  // ✅ utiliser "img" et fallback
+                  src={item.img || "/placeholder.png"} // Assure-toi que tes produits ont une clé `img`
                   alt={item.title || "Product"}
                   width={100}
                   height={50}
@@ -75,15 +75,18 @@ const CartDrawer = ({ onClose }) => {
         <div className="flex justify-between mb-2">
           <span className="font-semibold">Subtotal:</span>
           <span className="font-bold">${subtotal.toFixed(2)}</span>
-        </div>    
-              
+        </div>
+
         <p className="text-xs text-gray-500 mb-4">
           Taxes and shipping calculated at checkout
         </p>
+
         <div className="flex gap-2">
-          <button className="flex-1 bg-yellow-400 hover:bg-red-600 text-black font-bold py-2 rounded-3xl"
-          onClick={clearCart}>
-             Clear Cart
+          <button
+            className="flex-1 bg-yellow-400 hover:bg-red-600 text-black font-bold py-2 rounded-3xl"
+            onClick={clearCart}
+          >
+            Clear Cart
           </button>
           <button className="flex-1 bg-red-600 hover:bg-yellow-400 text-white font-bold py-2 rounded-3xl">
             CHECKOUT
