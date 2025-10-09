@@ -1,6 +1,8 @@
 import { events } from "@/app/utils/data";
+import NavbarComponents from "@/components/Navbar/NavbarComponents";
 
 
+<NavbarComponents/>
 // Fonction pour générer toutes les routes statiques à partir de tes produits
 export async function generateStaticParams() {
   return events.map((event) => ({
@@ -10,7 +12,6 @@ export async function generateStaticParams() {
 
 export default function ProductPage({ params }) {
   const { slug } = params;
-
   // Chercher le produit correspondant
   const product = events.find((item) => item.slug === slug);
 

@@ -8,7 +8,7 @@ export const HeroComponents = () => {
   return (
     <>
       {/* SECTION HERO*/}
-      <section className="flex flex-col-reverse lg:flex-row items-center justify-between min-h-screen px-6 md:px-12 lg:px-20 py-12 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <section className="flex flex-col-reverse lg:flex-row items-center justify-between min-h-screen px-6 md:px-12 lg:px-20 py-12 dark:bg-gray-900 transition-colors duration-300">
         
         {/* TEXTE */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-6 lg:w-1/2">

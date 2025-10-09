@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import useCartStore from "@/store/cartStore";
 
 const products = [
   { id: 1, name: "Shrimp foods", price: 10, image: "/salade.png" },
@@ -13,39 +15,29 @@ const products = [
 export default function ProductSearch() {
   const [query, setQuery] = useState("");
   const [filtered, setFiltered] = useState(products);
-  const [cart, setCart] = useState([]);
 
-  // Recherche par prix ou nom partiel
+  // ✅ utiliser uniquement le store
+  const { cart, addToCart } = useCartStore();
+  const router = useRouter();
+
+  // Recherche
   const handleSearch = () => {
     let results = [];
-
     if (!isNaN(query) && query.trim() !== "") {
-      // Si l'entrée est un nombre → recherche par prix exact
       results = products.filter((p) => p.price.toString() === query.trim());
     } else {
-      // Sinon recherche par nom partiel (insensible à la casse)
       results = products.filter((p) =>
         p.name.toLowerCase().includes(query.toLowerCase().trim())
       );
     }
-
     setFiltered(results);
   };
 
-  // Ajouter un produit au panier
-  const addToCart = (product) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
-  };
+  // Calcul total
+  const total = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="p-6 bg-[#fbb200] min-h-screen">
@@ -66,7 +58,7 @@ export default function ProductSearch() {
         </button>
       </div>
 
-      {/* Résultats de recherche */}
+      {/* Résultats */}
       <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {filtered.length > 0 ? (
           filtered.map((p) => (
@@ -83,7 +75,7 @@ export default function ProductSearch() {
                 {p.name} - {p.price}$
               </span>
               <button
-                onClick={() => addToCart(p)}
+                onClick={() => addToCart(p)} // ✅ utiliser le store
                 className="mt-2 bg-green-500 text-white px-2 py-1 rounded-2xl"
               >
                 Ajouter
@@ -99,28 +91,44 @@ export default function ProductSearch() {
       <div className="mt-6 border-t pt-4 bg-white p-4 rounded-2xl shadow">
         <h2 className="font-bold mb-2">🛒 Mon Panier</h2>
         {cart.length > 0 ? (
-          <ul>
-            {cart.map((item) => (
-              <li
-                key={item.id}
-                className="flex items-center justify-between mb-2"
-              >
-                <div className="flex items-center space-x-2">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-12 h-12 object-cover rounded-2xl"
-                  />
-                  <span>
-                    {item.name} x {item.quantity}
+          <>
+            <ul>
+              {cart.map((item) => (
+                <li
+                  key={item.id}
+                  className="flex items-center justify-between mb-2"
+                >
+                  <div className="flex items-center space-x-2">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-12 h-12 object-cover rounded-2xl"
+                    />
+                    <span>
+                      {item.name} x {item.quantity}
+                    </span>
+                  </div>
+                  <span className="font-semibold">
+                    {item.price * item.quantity}€
                   </span>
-                </div>
-                <span className="font-semibold">
-                  {item.price * item.quantity}€
-                </span>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+
+            {/* Total */}
+            <div className="mt-4 flex justify-between font-bold text-lg">
+              <span>Total :</span>
+              <span>{total}€</span>
+            </div>
+
+            {/* Bouton Commander */}
+            <button
+              onClick={() => router.push("/checkout")}
+              className="mt-4 w-full bg-orange-500 text-white py-2 rounded-2xl font-semibold hover:bg-orange-600"
+            >
+              Commander
+            </button>
+          </>
         ) : (
           <p>Votre panier est vide.</p>
         )}

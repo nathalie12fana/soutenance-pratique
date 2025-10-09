@@ -21,14 +21,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      {/* Ne force pas la classe "light", laisse next-themes gérer */}
       <html lang="en" suppressHydrationWarning>
-        
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          {/* ✅ ThemeProvider should be here */}
           <ThemeProvider
-            attribute="class" // applique "class=dark" ou "class=light" sur <html>
+            attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
