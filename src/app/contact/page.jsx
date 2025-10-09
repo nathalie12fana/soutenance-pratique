@@ -13,25 +13,27 @@ export const ContactPage = () => {
   const [isSending,setIsSending] = React.useState(false)
    const form = useRef();
 
-  const sendEmail = (e) => {
-    
-    setIsSending (true);
-    emailjs.
-sendForm('service_2gcwfvb', 'template_7c0yef1', form.current, {
-        publicKey: 'IOCIXn56nEQi48M1v',
-      })
-      .then(
-        () => {
-          setIsSending(false)
-          form.current.reset()
-          toast.success('Message sent successfully!');
-          form.current.reset();
-        },
-        (error) => {
-          toast.error('Faild to sent:', error.text);
-        },
-      );
-  };
+   const sendEmail = (e) => {
+  e.preventDefault(); // ⬅️ important
+  setIsSending(true);
+
+  emailjs
+    .sendForm('service_2gcwfvb', 'template_7c0yef1', form.current, {
+      publicKey: 'IOCIXn56nEQi48M1v',
+    })
+    .then(
+      () => {
+        setIsSending(false);
+        toast.success('Message sent successfully!');
+        form.current.reset();
+      },
+      (error) => {
+        setIsSending(false);
+        toast.error('Failed to send: ' + error.text);
+      }
+    );
+};
+
   return (
     <>
       {/* --- HEADER --- */}
@@ -84,41 +86,47 @@ sendForm('service_2gcwfvb', 'template_7c0yef1', form.current, {
           </h2>
 
           {/* Formulaire */}
-          <form ref={form} action="#"  onSubmit={sendEmail} method="POST" className="space-y-5">
-            {/* Ligne 1 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <input
-                type="text"
-                placeholder="Name*"
-                className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              />
-              <input
-                type="email"
-                placeholder="Email*"
-                className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              />
-            </div>
+    <form ref={form} onSubmit={sendEmail} className="space-y-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <input
+      type="text"
+      name="user-name"
+      placeholder="Name*"
+      required
+      className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+    />
+    <input
+      type="email"
+      name="user-email"
+      placeholder="Email*"
+      required
+      className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+    />
+  </div>
 
-            {/* Ligne 2 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <input
-                type="text"
-                placeholder="Phone*"
-                className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              />
-              <input
-                type="text"
-                placeholder="Website"
-                className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-              />
-            </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <input
+      type="text"
+      name="user-phone"
+      placeholder="Phone*"
+      required
+      className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+    />
+    <input
+      type="text"
+      name="user-website"
+      placeholder="Website"
+      className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+    />
+  </div>
 
-            {/* Message */}
-            <textarea 
-              placeholder="Write Message"
-              rows="4"
-              className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            ></textarea>
+  <textarea
+    name="message"
+    placeholder="Write Message"
+    rows="4"
+    required
+    className="w-full border rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+  ></textarea>
 
             {/* Bouton */}
             <div>
@@ -126,7 +134,7 @@ sendForm('service_2gcwfvb', 'template_7c0yef1', form.current, {
                 <Loader2Icon   className="animate-spin" />
                     Please wait
                 </Button> : <Button type="button"
-        onClick={()=>sendEmail()} className="bg-yellow-400 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-red-600 transition" > Send Mail </Button>
+        onClick={(e)=>sendEmail(e)} className="bg-yellow-400 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:bg-red-600 transition" > Send Mail </Button>
                }         
       </div>
           </form>
